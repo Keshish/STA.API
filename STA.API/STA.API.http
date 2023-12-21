@@ -1,0 +1,6 @@
+@STA.API_HostAddress = http://localhost:5038
+
+GET {{STA.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
