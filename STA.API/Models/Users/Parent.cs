@@ -11,6 +11,6 @@ namespace STA.API.Models.Users
         public string UserId { get; set; }
         [ForeignKey(nameof(UserId))]
         public ApplicationUser User { get; set; }
-
+        public virtual ICollection<Student> Students { get; set; }
     }
 }

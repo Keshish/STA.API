@@ -10,7 +10,8 @@ using STA.API.Models.DbContext;
 using System.Globalization;
 using Microsoft.AspNetCore.Localization;
 using STA.API.Models;
-using STA.API.Services;
+using STA.API.Services.Abstractions;
+using STA.API.Services.Implementations;
 
 namespace STA.API
 {
@@ -46,6 +47,7 @@ namespace STA.API
                 .AddDefaultTokenProviders();
 
             builder.Services.AddScoped<IParentService, ParentService>();
+            builder.Services.AddScoped<IStudentService, StudentService>();
 
             builder.Services
                 //  Adding authentication

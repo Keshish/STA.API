@@ -12,6 +12,8 @@ namespace STA.API.Models.DbContext
         public DbSet<Supervisor> Supervisors { get; set; }
         public DbSet<Assistant> Assistants { get; set; }
         public DbSet<Parent> Parents { get; set; }
+
+        public DbSet<Student> Students { get; set; }
         #endregion
 
 
@@ -40,9 +42,12 @@ namespace STA.API.Models.DbContext
             .WithOne(u => u.Parent)
             .HasForeignKey<Parent>(s => s.UserId);
 
+
+            modelBuilder.Entity<Parent>()
+                .HasMany(p => p.Students)
+                .WithOne(s => s.Parent)
+                .HasForeignKey(s => s.ParentId)
+                .IsRequired();
         }
-
-
-
     }
 }
