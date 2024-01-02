@@ -12,10 +12,9 @@ namespace STA.API.Models.DbContext
         public DbSet<Supervisor> Supervisors { get; set; }
         public DbSet<Assistant> Assistants { get; set; }
         public DbSet<Parent> Parents { get; set; }
-
+        public DbSet<Course> Courses { get; set; }
         public DbSet<Student> Students { get; set; }
         #endregion
-
 
         public BaseDataContext(DbContextOptions<BaseDataContext> options)
             : base(options)
@@ -26,7 +25,6 @@ namespace STA.API.Models.DbContext
         {
             base.OnModelCreating(modelBuilder);
 
-            // Configure relationships for User, Supervisor, Assistant, and Parent
             modelBuilder.Entity<Supervisor>()
                 .HasOne(s => s.User)
                 .WithOne(u => u.Supervisor)
@@ -48,6 +46,19 @@ namespace STA.API.Models.DbContext
                 .WithOne(s => s.Parent)
                 .HasForeignKey(s => s.ParentId)
                 .IsRequired();
+
+            modelBuilder.Entity<StudentCourse>()
+       .HasKey(sc => new { sc.StudentId, sc.CourseId });
+
+            modelBuilder.Entity<StudentCourse>()
+                .HasOne(sc => sc.Student)
+                .WithMany(s => s.StudentCourses)
+                .HasForeignKey(sc => sc.StudentId);
+
+            modelBuilder.Entity<StudentCourse>()
+                .HasOne(sc => sc.Course)
+                .WithMany(c => c.StudentCourses)
+                .HasForeignKey(sc => sc.CourseId);
         }
     }
 }

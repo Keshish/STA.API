@@ -48,6 +48,7 @@ namespace STA.API
 
             builder.Services.AddScoped<IParentService, ParentService>();
             builder.Services.AddScoped<IStudentService, StudentService>();
+            builder.Services.AddScoped<ICourseService, CourseService>();
 
             builder.Services
                 //  Adding authentication

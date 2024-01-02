@@ -17,5 +17,8 @@ namespace STA.API.Models
 
         [ForeignKey(nameof(ParentId))]
         public Parent Parent { get; set; }
+
+        public ICollection<StudentCourse> StudentCourses { get; set; } = new List<StudentCourse>();
+
     }
 }

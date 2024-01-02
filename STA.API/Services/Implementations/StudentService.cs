@@ -22,6 +22,14 @@ namespace STA.API.Services.Implementations
             _mapper = mapper;
         }
 
+
+        public async Task<List<StudentVM>> GetStudentsAsync()
+        {
+            _logger.LogInformation("GetStudentsAsync called.");
+            var students = await _dbContext.Students.Include(p => p.Parent).ToListAsync();
+
+            return _mapper.Map<List<StudentVM>>(students);
+        }
         public async Task<List<StudentVM>> GetStudentsWithParentIdAsync(int parentId)
         {
             _logger.LogInformation("GetStudentsAsync called.");
@@ -56,5 +64,40 @@ namespace STA.API.Services.Implementations
 
             return true;
         }
+
+        public async Task<bool> UpdateStudentAsync(StudentUpdateDto studentUpdateDto)
+        {
+            _logger.LogInformation("UpdateStudnetAsync called.");
+
+            var student = await _dbContext.Students.FirstOrDefaultAsync(s => s.Id == studentUpdateDto.Id);
+            if (student == null)
+            {
+                throw new ApplicationException("Student not found.");
+            }
+
+            _mapper.Map(studentUpdateDto, student);
+            _dbContext.SaveChanges();
+
+            return true;
+        }
+        
+        public async Task<bool> DeleteStudentWithIdAsync(int Id)
+        {
+            _logger.LogInformation("DeleteStudentWithIdAsync called.");
+
+           var student = await _dbContext.Students.FirstOrDefaultAsync(s=> s.Id == Id);
+            if (student == null)
+            {
+                throw new ApplicationException("Student not found.");
+            }
+
+            _dbContext.Students.Remove(student);
+            _dbContext.SaveChanges();
+
+            return true;
+        }
+
+
+      
     }
 }
